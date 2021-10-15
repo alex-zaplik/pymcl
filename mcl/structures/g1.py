@@ -15,7 +15,9 @@ class G1(ctypes.Structure):
     _fields_ = [("value", ctypes.c_ulonglong * G1_SIZE)]
 
     def __init__(self, value = None):
-        if isinstance(value, str):
+        if isinstance(value, G1):
+            self.value = value.value
+        elif isinstance(value, str):
             self.setStr(value)
         elif isinstance(value, bytes):
             self.deserialize(value)

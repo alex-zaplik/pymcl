@@ -14,7 +14,9 @@ class Fr(ctypes.Structure):
     _fields_ = [("value", ctypes.c_ulonglong * FR_SIZE)]
 
     def __init__(self, value = None):
-        if isinstance(value, int):
+        if isinstance(value, Fr):
+            self.value = value.value
+        elif isinstance(value, int):
             self.setInt(value)
         elif isinstance(value, str):
             self.setStr(value)

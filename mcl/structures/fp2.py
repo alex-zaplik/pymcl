@@ -15,7 +15,9 @@ class Fp2(ctypes.Structure):
     _fields_ = [("value", ctypes.c_ulonglong * FP_SIZE * 2)]
 
     def __init__(self, value = None):
-        if isinstance(value, bytes):
+        if isinstance(value, Fp2):
+            self.value = value.value
+        elif isinstance(value, bytes):
             self.deserialize(value)
     
     def clear(self) -> None:
