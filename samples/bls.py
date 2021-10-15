@@ -61,25 +61,26 @@ class Verifier:
             return False
 
 
-# Initialize the library (otherwise you'll get a segmentation fault)
-mcl_init(CurveType.MCL_BLS12_381)
+if __name__ == "__main__":
+    # Initialize the library (otherwise you'll get a segmentation fault)
+    mcl_init(CurveType.MCL_BLS12_381)
 
-# Prepare generators
-P = G1.hashAndMapTo("abc")
-Q = G2.hashAndMapTo("abc")
+    # Prepare generators
+    P = G1.hashAndMapTo("abc")
+    Q = G2.hashAndMapTo("abc")
 
-# Init scheme
-x, X1, X2 = keyGen(P, Q, 2 ** 64)
+    # Init scheme
+    x, X1, X2 = keyGen(P, Q, 2 ** 64)
 
-# Create Signer and Verifier instances
-signer = Signer(P, Q, x)
-verifier = Verifier(P, Q, X1, X2)
+    # Create Signer and Verifier instances
+    signer = Signer(P, Q, x)
+    verifier = Verifier(P, Q, X1, X2)
 
-# Sign some text with G1/G2 signatures
-text = "Hello world!"
-s1 = signer.signG1(text)
-s2 = signer.signG2(text)
+    # Sign some text with G1/G2 signatures
+    text = "Hello world!"
+    s1 = signer.signG1(text)
+    s2 = signer.signG2(text)
 
-# Verify the signatures
-print("Verified S1:", verifier.verify(text, s1))
-print("Verified S2:", verifier.verify(text, s2))
+    # Verify the signatures
+    print("Verified S1:", verifier.verify(text, s1))
+    print("Verified S2:", verifier.verify(text, s2))
