@@ -4,8 +4,8 @@ PyMCL is a set of Python bindings from the [C++ MCL library](https://github.com/
 
 ## Installation
 
-1.  Clone, build and install the MCL library (instructions are provided in the [MCL repo](https://github.com/herumi/mcl))
-1.  Make sure that the `MCL_PATH` environmental variable is set properly (i.e. it points to where MCL was built/installed)
+1.  Clone, build and install the MCL dynamic library (instructions are provided in the [MCL repo](https://github.com/herumi/mcl))
+1.  Make sure that the `MCL_PATH` environmental variable is set properly (it should point to a folder containing MCL lib and include folders)
 1.  Run the following commands in any folder you'd like:
 ```
 git clone https://github.com/alex-zaplik/pymcl.git
