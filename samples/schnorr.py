@@ -1,7 +1,5 @@
 from mcl import *
 
-import random
-
 
 def keyGen(G: G1):
     a = Fr()
@@ -11,16 +9,15 @@ def keyGen(G: G1):
 
 
 class Prover:
-    def __init__(self, a: Fr, A: G1, G: G1, r: int):
+    def __init__(self, a: Fr, A: G1, G: G1):
         self.a = a
         self.A = A
         self.G = G
-        self.r = r
 
         self.x = Fr()
     
     def commit(self) -> G1:
-        self.x = Fr(random.randint(1, self.r - 1))
+        self.x.setByCSPRNG()
         X = self.G * self.x
         return X
     
@@ -31,16 +28,15 @@ class Prover:
 
 
 class Verifier:
-    def __init__(self, A: G1, G: G1, r: int):
+    def __init__(self, A: G1, G: G1):
         self.A = A
         self.G = G
-        self.r = r
 
         self.X = G1()
         self.c = Fr()
     
     def challenge(self, X: G1) -> Fr:
-        self.c = Fr(random.randint(1, self.r - 1))
+        self.c.setByCSPRNG()
         self.X = X
         return self.c
     
@@ -63,8 +59,8 @@ if __name__ == "__main__":
     a, A = keyGen(G)
 
     # Initialize participants
-    prover = Prover(a, A, G, 2 ** 64)
-    verifier = Verifier(A, G, 2 ** 64)
+    prover = Prover(a, A, G)
+    verifier = Verifier(A, G)
 
     # Simulate an execution
     X = prover.commit()

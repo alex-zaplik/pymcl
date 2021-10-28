@@ -1,7 +1,5 @@
 from mcl import *
 
-import random
-
 
 def hashG1(text: str) -> G1:
     # Hash into G1
@@ -13,10 +11,10 @@ def hashG2(text: str) -> G1:
     return G2.hashAndMapTo(text)
 
 
-def keyGen(P: G1, Q: G2, r: int):
+def keyGen(P: G1, Q: G2):
     # Generate the private key and G1/G2 public keys
     x = Fr()
-    x.setInt(random.randint(1, r - 1))
+    x.setByCSPRNG()
     return x, P * x, Q * x
 
 
@@ -70,7 +68,7 @@ if __name__ == "__main__":
     Q = G2.hashAndMapTo("abc")
 
     # Init scheme
-    x, X1, X2 = keyGen(P, Q, 2 ** 64)
+    x, X1, X2 = keyGen(P, Q)
 
     # Create Signer and Verifier instances
     signer = Signer(P, Q, x)
