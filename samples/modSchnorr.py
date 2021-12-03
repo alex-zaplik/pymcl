@@ -25,7 +25,7 @@ class Prover:
         return self.X
     
     def respond(self, c: Fr) -> G1:
-        text = self.X.getStr(io_mode=IoMode.HEX) + c.getStr(io_mode=IoMode.HEX)
+        text = self.X.serialize().hex() + c.serialize().hex()
         H = G1.hashAndMapTo(text)
         S = H * (self.x + self.a * c)
         self.x.clear()
@@ -48,7 +48,7 @@ class Verifier:
         return self.c
     
     def verify(self, S: G1) -> bool:
-        text = self.X.getStr(io_mode=IoMode.HEX) + self.c.getStr(io_mode=IoMode.HEX)
+        text = self.X.serialize().hex() + self.c.serialize().hex()
         H = G1.hashAndMapTo(text)
         lhs = pairing(S, self.Q)
         rhs = pairing(H, self.X + self.A * self.c)

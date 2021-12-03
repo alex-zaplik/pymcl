@@ -71,8 +71,7 @@ class G2(ctypes.Structure):
         Set the mapping of the hash of the data as the value
         """
         res = G2()
-        buffer = ctypes.create_string_buffer(data.encode())
-        mcl.mclBnG2_hashAndMapTo(ctypes.byref(res.value), buffer, len(buffer))
+        mcl.mclBnG2_hashAndMapTo(ctypes.byref(res.value), ctypes.c_char_p(data), ctypes.c_size_t(len(data)))
         return res
     
     # Checks
