@@ -26,7 +26,7 @@ class Prover:
     
     def respond(self, c: Fr) -> G1:
         text = self.X.serialize().hex() + c.serialize().hex()
-        H = G1.hashAndMapTo(text)
+        H = G1.hashAndMapTo(text.encode())
         S = H * (self.x + self.a * c)
         self.x.clear()
         self.X.clear()
@@ -49,7 +49,7 @@ class Verifier:
     
     def verify(self, S: G1) -> bool:
         text = self.X.serialize().hex() + self.c.serialize().hex()
-        H = G1.hashAndMapTo(text)
+        H = G1.hashAndMapTo(text.encode())
         lhs = pairing(S, self.Q)
         rhs = pairing(H, self.X + self.A * self.c)
         self.X.clear()
@@ -62,8 +62,8 @@ if __name__ == "__main__":
     mcl_init(CurveType.MCL_BLS12_381)
 
     # Create generatora
-    P = G1.hashAndMapTo("abc")
-    Q = G2.hashAndMapTo("abc")
+    P = G1.hashAndMapTo(b"abc")
+    Q = G2.hashAndMapTo(b"abc")
 
     # Generate keys
     a, A = keyGen(Q)

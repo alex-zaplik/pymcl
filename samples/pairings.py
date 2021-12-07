@@ -6,8 +6,8 @@ if __name__ == "__main__":
     mcl_init(CurveType.MCL_BLS12_381)
 
     # Create two generators
-    P = G1.hashAndMapTo("abc")
-    Q = G2.hashAndMapTo("abc")
+    P = G1.hashAndMapTo(b"abc")
+    Q = G2.hashAndMapTo(b"abc")
 
     # Create two exponents
     a = Fr(123)

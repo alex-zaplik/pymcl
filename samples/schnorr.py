@@ -53,7 +53,7 @@ if __name__ == "__main__":
     mcl_init(CurveType.MCL_BLS12_381)
 
     # Create a generator
-    G = G1.hashAndMapTo("abc")
+    G = G1.hashAndMapTo(b"abc")
 
     # Generate keys
     a, A = keyGen(G)

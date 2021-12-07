@@ -84,8 +84,7 @@ class Fp(ctypes.Structure):
         """
         Set the hash of the data as the value
         """
-        buffer = ctypes.create_string_buffer(data.encode())
-        mcl.mclBnFr_setHashOf(ctypes.byref(self.value), buffer, len(buffer))
+        mcl.mclBnFp_setHashOf(ctypes.byref(self.value), ctypes.c_char_p(data), ctypes.c_size_t(len(data)))
     
     def mapToG1(self) -> G1:
         res = G1()

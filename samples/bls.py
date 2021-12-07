@@ -3,12 +3,12 @@ from mcl import *
 
 def hashG1(text: str) -> G1:
     # Hash into G1
-    return G1.hashAndMapTo(text)
+    return G1.hashAndMapTo(text.encode())
 
 
 def hashG2(text: str) -> G1:
     # Hash into G2
-    return G2.hashAndMapTo(text)
+    return G2.hashAndMapTo(text.encode())
 
 
 def keyGen(P: G1, Q: G2):
@@ -64,8 +64,8 @@ if __name__ == "__main__":
     mcl_init(CurveType.MCL_BLS12_381)
 
     # Prepare generators
-    P = G1.hashAndMapTo("abc")
-    Q = G2.hashAndMapTo("abc")
+    P = G1.hashAndMapTo(b"abc")
+    Q = G2.hashAndMapTo(b"abc")
 
     # Init scheme
     x, X1, X2 = keyGen(P, Q)

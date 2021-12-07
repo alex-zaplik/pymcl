@@ -83,9 +83,8 @@ class Fr(ctypes.Structure):
         """
         Set the hash of the data as the value
         """
-        buffer = ctypes.create_string_buffer(data.encode())
-        mcl.mclBnFr_setHashOf(ctypes.byref(self.value), buffer, len(buffer))
-    
+        mcl.mclBnFr_setHashOf(ctypes.byref(self.value), ctypes.c_char_p(data), ctypes.c_size_t(len(data)))
+
     # Checks
 
     def isValid(self) -> bool:
