@@ -1,6 +1,6 @@
 # PyMCL
 
-PyMCL is a set of Python bindings from the [C++ MCL library](https://github.com/herumi/mcl) by [Herumi](https://github.com/herumi/).
+PyMCL is a set of Python bindings to the [C++ MCL library](https://github.com/herumi/mcl) by [Herumi](https://github.com/herumi/).
 
 ## Available curves
 
@@ -48,4 +48,4 @@ The library was tested with MCL v1.52
 ## Contributions
 
 If you have any problems with this wrapper, please let me know and
-I'll try to fix it as soon as possible.
+I'll try to fix them as soon as possible.
