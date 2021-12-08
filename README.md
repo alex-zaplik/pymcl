@@ -34,9 +34,8 @@ python3 <path_to_sample>.py
 
 ## Missing parts of the API
 
-For now, only BLS12_381 is supperted and a couple of global
-setting calls as well as Lagrange calls are missing (and
-may be added in the future).
+For now, a couple of global setting calls as well as Lagrange calls
+are missing (and may be added in the future).
 
 Fp6 and Fp12 types were not added becaose it didn't seem like they
 were needed.
