@@ -1,6 +1,6 @@
 # PyMCL
 
-PyMCL is a set of Python bindings from the [C++ MCL library](https://github.com/herumi/mcl) by [Herumi](https://github.com/herumi/).
+PyMCL is a set of Python bindings to the [C++ MCL library](https://github.com/herumi/mcl) by [Herumi](https://github.com/herumi/).
 
 ## Available curves
 
@@ -27,16 +27,15 @@ sudo python3 setup.py install
 
 ## Usage
 
-If MCL and these bindings were installed properly, examples given in `samples/` should run properly if started as follows:
+If MCL and these bindings were installed properly, examples given in `samples/` should run properly if started in the following way:
 ```
 python3 <path_to_sample>.py
 ```
 
 ## Missing parts of the API
 
-For now, only BLS12_381 is supperted and a couple of global
-setting calls as well as Lagrange calls are missing (and
-may be added in the future).
+For now, a couple of global setting calls as well as Lagrange calls
+are missing (and may be added in the future).
 
 Fp6 and Fp12 types were not added becaose it didn't seem like they
 were needed.
@@ -49,4 +48,4 @@ The library was tested with MCL v1.52
 ## Contributions
 
 If you have any problems with this wrapper, please let me know and
-I'll try to fix it as soon as possible.
+I'll try to fix them as soon as possible.
