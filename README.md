@@ -27,7 +27,7 @@ sudo python3 setup.py install
 
 ## Usage
 
-If MCL and these bindings were installed properly, examples given in `samples/` should run properly if started as follows:
+If MCL and these bindings were installed properly, examples given in `samples/` should run properly if started in the following way:
 ```
 python3 <path_to_sample>.py
 ```
