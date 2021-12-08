@@ -2,10 +2,21 @@
 
 PyMCL is a set of Python bindings from the [C++ MCL library](https://github.com/herumi/mcl) by [Herumi](https://github.com/herumi/).
 
+## Available curves
+
+Four different curves are currently available in this wrapper:
+
+Curve name  | CurveType value |
+------------|-----------------|
+BN160       | MCL_BN160       |
+BN254       | MCL_BN254       |
+BLS12_381   | MCL_BLS12_381   |
+BN_SNARK1   | MCL_BN_SNARK1   |
+
 ## Installation
 
 1.  Clone, build and install the MCL dynamic library (instructions are provided in the [MCL repo](https://github.com/herumi/mcl))
-1.  Make sure that the `MCL_PATH` environmental variable is set properly (it should point to a folder containing MCL lib and include folders)
+1.  Make sure that the `MCL_PATH` environmental variable is set properly (it should point to a folder containing MCL `lib` and `include` folders)
 1.  Run the following commands in any folder you'd like:
 ```
 git clone https://github.com/alex-zaplik/pymcl.git
@@ -34,3 +45,8 @@ were needed.
 
 For now, this binding set only supports Linux operating systems.
 The library was tested with MCL v1.52
+
+## Contributions
+
+If you have any problems with this wrapper, please let me know and
+I'll try to fix it as soon as possible.

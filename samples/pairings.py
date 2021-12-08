@@ -2,7 +2,7 @@ from mcl import *
 
 
 if __name__ == "__main__":
-    # Initialize the library (otherwise you'll get a segmentation fault)
+    # Initialize the library
     mcl_init(CurveType.MCL_BLS12_381)
 
     # Create two generators

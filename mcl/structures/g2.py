@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from ..lib import mcl
-from ..defines import G2_SIZE, IoMode
+from .. import mcl, defines
+from ..defines import IoMode
 from .fr import Fr
 
 import ctypes
@@ -13,9 +13,12 @@ class G2(ctypes.Structure):
     under a twisting isomorphism from E' to E
     """
 
-    _fields_ = [("value", ctypes.c_ulonglong * G2_SIZE)]
+    _fields_ = [("value", ctypes.c_ulonglong * defines.G2_SIZE)]
 
     def __init__(self, value = None):
+        if mcl.mcl_lib is None:
+            raise RuntimeError("MCL was not initialised, please run mcl_init first")
+
         if isinstance(value, G2):
             self.value = value.value
         elif isinstance(value, str):
@@ -27,7 +30,7 @@ class G2(ctypes.Structure):
         """
         Sets the value to 0
         """
-        mcl.mclBnG2_clear(ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnG2_clear(ctypes.byref(self.value))
 
     def serialize(self) -> bytes:
         """
@@ -35,7 +38,7 @@ class G2(ctypes.Structure):
         """
         buffer_len = 1024
         buffer = ctypes.create_string_buffer(buffer_len)
-        size = mcl.mclBnG2_serialize(buffer, len(buffer), ctypes.byref(self.value))
+        size = mcl.mcl_lib.mclBnG2_serialize(buffer, len(buffer), ctypes.byref(self.value))
         return buffer[:size]
     
     def deserialize(self, buffer: bytes) -> None:
@@ -43,13 +46,13 @@ class G2(ctypes.Structure):
         Deserializes bytes and sets the value
         """
         c_buffer = ctypes.create_string_buffer(buffer)
-        mcl.mclBnG2_deserialize(ctypes.byref(self.value), c_buffer, len(buffer))
+        mcl.mcl_lib.mclBnG2_deserialize(ctypes.byref(self.value), c_buffer, len(buffer))
 
     def setStr(self, string: str, io_mode: IoMode = IoMode.DEC) -> None:
         """
         Sets the value to the number in the string
         """
-        mcl.mclBnG2_setStr(ctypes.byref(self.value), ctypes.c_char_p(string.encode()), len(string), io_mode.value)
+        mcl.mcl_lib.mclBnG2_setStr(ctypes.byref(self.value), ctypes.c_char_p(string.encode()), len(string), io_mode.value)
 
     def getStr(self, io_mode: IoMode = IoMode.DEC) -> None:
         """
@@ -57,7 +60,7 @@ class G2(ctypes.Structure):
         """
         buffer_len = 1024
         buffer = ctypes.create_string_buffer(buffer_len)
-        mcl.mclBnG2_getStr(buffer, len(buffer), ctypes.byref(self.value), io_mode.value)
+        mcl.mcl_lib.mclBnG2_getStr(buffer, len(buffer), ctypes.byref(self.value), io_mode.value)
         return buffer.value.decode()
 
     def __str__(self) -> str:
@@ -70,20 +73,23 @@ class G2(ctypes.Structure):
         """
         Set the mapping of the hash of the data as the value
         """
+        if mcl.mcl_lib is None:
+            raise RuntimeError("MCL was not initialised, please run mcl_init first")
+
         res = G2()
-        mcl.mclBnG2_hashAndMapTo(ctypes.byref(res.value), ctypes.c_char_p(data), ctypes.c_size_t(len(data)))
+        mcl.mcl_lib.mclBnG2_hashAndMapTo(ctypes.byref(res.value), ctypes.c_char_p(data), ctypes.c_size_t(len(data)))
         return res
     
     # Checks
 
     def isValid(self) -> bool:
-        return mcl.mclBnG2_isValid(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnG2_isValid(ctypes.byref(self.value)) != 0
 
     def isValidOrder(self) -> bool:
-        return mcl.mclBnG2_isValidOrder(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnG2_isValidOrder(ctypes.byref(self.value)) != 0
 
     def isEqual(self, rhs: G2) -> bool:
-        return mcl.mclBnG2_isEqual(ctypes.byref(self.value), ctypes.byref(rhs.value)) != 0
+        return mcl.mcl_lib.mclBnG2_isEqual(ctypes.byref(self.value), ctypes.byref(rhs.value)) != 0
 
     def __eq__(self, rhs: G2) -> bool:
         return self.isEqual(rhs)
@@ -92,13 +98,13 @@ class G2(ctypes.Structure):
         return not self.isEqual(rhs)
 
     def isZero(self) -> bool:
-        return mcl.mclBnG2_isZero(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnG2_isZero(ctypes.byref(self.value)) != 0
 
     # Unary arithmetic operators
 
     def neg(self) -> G2:
         res = G2()
-        mcl.mclBnG2_neg(ctypes.byref(res.value), ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnG2_neg(ctypes.byref(res.value), ctypes.byref(self.value))
         return res
     
     def __neg__(self) -> G2:
@@ -106,19 +112,19 @@ class G2(ctypes.Structure):
     
     def dbl(self) -> G2:
         res = G2()
-        mcl.mclBnG2_dbl(ctypes.byref(res.value), ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnG2_dbl(ctypes.byref(res.value), ctypes.byref(self.value))
         return res
     
     def normalize(self) -> G2:
         res = G2()
-        mcl.mclBnG2_normalize(ctypes.byref(res.value), ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnG2_normalize(ctypes.byref(res.value), ctypes.byref(self.value))
         return res
 
     # Binary arithmetic operators
 
     def add(self, rhs: G2) -> G2:
         res = G2()
-        mcl.mclBnG2_add(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
+        mcl.mcl_lib.mclBnG2_add(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
         return res
     
     def __add__(self, rhs: G2) -> G2:
@@ -126,7 +132,7 @@ class G2(ctypes.Structure):
 
     def sub(self, rhs: G2) -> G2:
         res = G2()
-        mcl.mclBnG2_sub(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
+        mcl.mcl_lib.mclBnG2_sub(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
         return res
     
     def __sub__(self, rhs: G2) -> G2:
@@ -134,7 +140,7 @@ class G2(ctypes.Structure):
 
     def mul(self, rhs: Fr) -> G2:
         res = G2()
-        mcl.mclBnG2_mul(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
+        mcl.mcl_lib.mclBnG2_mul(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
         return res
     
     def __mul__(self, rhs: Fr) -> G2:

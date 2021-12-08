@@ -49,8 +49,12 @@ class Verifier:
 
 
 if __name__ == "__main__":
-    # Initialize the library (otherwise you'll get a segmentation fault)
+    # Initialize the library
+
+    # mcl_init(CurveType.MCL_BN254)
+    # mcl_init(CurveType.MCL_BN_SNARK1)
     mcl_init(CurveType.MCL_BLS12_381)
+    # mcl_init(CurveType.MCL_BN160)
 
     # Create a generator
     G = G1.hashAndMapTo(b"abc")

@@ -14,8 +14,8 @@ class PairingTests(unittest.TestCase):
         mcl_init(CurveType.MCL_BLS12_381)
     
     def testPairing(self):
-        P = G1.hashAndMapTo("abc")
-        Q = G2.hashAndMapTo("abc")
+        P = G1.hashAndMapTo(b"abc")
+        Q = G2.hashAndMapTo(b"abc")
 
         a = Fr(123)
         b = Fr(456)

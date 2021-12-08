@@ -31,7 +31,7 @@ class FrTests(unittest.TestCase):
     def testOther(self):
         a = Fr()
         a.setByCSPRNG()
-        a.setHashOf("Hello")
+        a.setHashOf(b"Hello")
 
     # Checks
 

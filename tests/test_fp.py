@@ -4,7 +4,9 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../mcl"))
 
-from mcl import mcl_init, CurveType, IoMode
+from mcl import mcl
+from mcl.mcl import mcl_init, CurveType
+from mcl.defines import CurveType, IoMode
 from mcl.structures.fp import Fp, G1
 
 
@@ -32,7 +34,7 @@ class FpTests(unittest.TestCase):
     def testOther(self):
         a = Fp()
         a.setByCSPRNG()
-        a.setHashOf("Hello")
+        a.setHashOf(b"Hello")
 
     def testMapToG1(self):
         a = Fp(10)

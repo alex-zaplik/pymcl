@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from ..lib import mcl
-from ..defines import FR_SIZE, IoMode
+from .. import mcl, defines
+from ..defines import IoMode
 
 import ctypes
 
@@ -11,9 +11,12 @@ class Fr(ctypes.Structure):
     A finite field of prime order `r`
     """
 
-    _fields_ = [("value", ctypes.c_ulonglong * FR_SIZE)]
+    _fields_ = [("value", ctypes.c_ulonglong * defines.FR_SIZE)]
 
     def __init__(self, value = None):
+        if mcl.mcl_lib is None:
+            raise RuntimeError("MCL was not initialised, please run mcl_init first")
+
         if isinstance(value, Fr):
             self.value = value.value
         elif isinstance(value, int):
@@ -27,13 +30,13 @@ class Fr(ctypes.Structure):
         """
         Sets the value to 0
         """
-        mcl.mclBnFr_clear(ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnFr_clear(ctypes.byref(self.value))
     
     def setInt(self, x: int) -> None:
         """
         Sets the value to x
         """
-        mcl.mclBnFr_setInt(ctypes.byref(self.value), x)
+        mcl.mcl_lib.mclBnFr_setInt(ctypes.byref(self.value), x)
     
     # TODO: Set/Get little endian buff
 
@@ -43,7 +46,7 @@ class Fr(ctypes.Structure):
         """
         buffer_len = 1024
         buffer = ctypes.create_string_buffer(buffer_len)
-        size = mcl.mclBnFr_serialize(buffer, len(buffer), ctypes.byref(self.value))
+        size = mcl.mcl_lib.mclBnFr_serialize(buffer, len(buffer), ctypes.byref(self.value))
         return buffer[:size]
     
     def deserialize(self, buffer: bytes) -> None:
@@ -51,13 +54,13 @@ class Fr(ctypes.Structure):
         Deserializes bytes and sets the value
         """
         c_buffer = ctypes.create_string_buffer(buffer)
-        mcl.mclBnFr_deserialize(ctypes.byref(self.value), c_buffer, len(buffer))
+        mcl.mcl_lib.mclBnFr_deserialize(ctypes.byref(self.value), c_buffer, len(buffer))
 
     def setStr(self, string: str, io_mode: IoMode = IoMode.DEC) -> None:
         """
         Sets the value to the number in the string
         """
-        mcl.mclBnFr_setStr(ctypes.byref(self.value), ctypes.c_char_p(string.encode()), len(string), io_mode.value)
+        mcl.mcl_lib.mclBnFr_setStr(ctypes.byref(self.value), ctypes.c_char_p(string.encode()), len(string), io_mode.value)
 
     def getStr(self, io_mode: IoMode = IoMode.DEC) -> None:
         """
@@ -65,7 +68,7 @@ class Fr(ctypes.Structure):
         """
         buffer_len = 1024
         buffer = ctypes.create_string_buffer(buffer_len)
-        mcl.mclBnFr_getStr(buffer, len(buffer), ctypes.byref(self.value), io_mode.value)
+        mcl.mcl_lib.mclBnFr_getStr(buffer, len(buffer), ctypes.byref(self.value), io_mode.value)
         return buffer.value.decode()
 
     def __str__(self) -> str:
@@ -77,21 +80,21 @@ class Fr(ctypes.Structure):
         """
         Sets a random value
         """
-        mcl.mclBnFr_setByCSPRNG(ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnFr_setByCSPRNG(ctypes.byref(self.value))
     
     def setHashOf(self, data) -> None:
         """
         Set the hash of the data as the value
         """
-        mcl.mclBnFr_setHashOf(ctypes.byref(self.value), ctypes.c_char_p(data), ctypes.c_size_t(len(data)))
+        mcl.mcl_lib.mclBnFr_setHashOf(ctypes.byref(self.value), ctypes.c_char_p(data), ctypes.c_size_t(len(data)))
 
     # Checks
 
     def isValid(self) -> bool:
-        return mcl.mclBnFr_isValid(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnFr_isValid(ctypes.byref(self.value)) != 0
 
     def isEqual(self, rhs: Fr) -> bool:
-        return mcl.mclBnFr_isEqual(ctypes.byref(self.value), ctypes.byref(rhs.value)) != 0
+        return mcl.mcl_lib.mclBnFr_isEqual(ctypes.byref(self.value), ctypes.byref(rhs.value)) != 0
 
     def __eq__(self, rhs: Fr) -> bool:
         return self.isEqual(rhs)
@@ -100,22 +103,22 @@ class Fr(ctypes.Structure):
         return not self.isEqual(rhs)
 
     def isZero(self) -> bool:
-        return mcl.mclBnFr_isZero(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnFr_isZero(ctypes.byref(self.value)) != 0
 
     def isOne(self) -> bool:
-        return mcl.mclBnFr_isOne(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnFr_isOne(ctypes.byref(self.value)) != 0
 
     def isOdd(self) -> bool:
-        return mcl.mclBnFr_isOdd(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnFr_isOdd(ctypes.byref(self.value)) != 0
 
     def isNegative(self) -> bool:
-        return mcl.mclBnFr_isNegative(ctypes.byref(self.value)) != 0
+        return mcl.mcl_lib.mclBnFr_isNegative(ctypes.byref(self.value)) != 0
 
     # Unary arithmetic operators
 
     def neg(self) -> Fr:
         res = Fr()
-        mcl.mclBnFr_neg(ctypes.byref(res.value), ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnFr_neg(ctypes.byref(res.value), ctypes.byref(self.value))
         return res
     
     def __neg__(self) -> Fr:
@@ -123,24 +126,24 @@ class Fr(ctypes.Structure):
     
     def inv(self) -> Fr:
         res = Fr()
-        mcl.mclBnFr_neg(ctypes.byref(res.value), ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnFr_neg(ctypes.byref(res.value), ctypes.byref(self.value))
         return res
     
     def sqr(self) -> Fr:
         res = Fr()
-        mcl.mclBnFr_sqr(ctypes.byref(res.value), ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnFr_sqr(ctypes.byref(res.value), ctypes.byref(self.value))
         return res
     
     def squareRoot(self) -> Fr:
         res = Fr()
-        mcl.mclBnFr_squareRoot(ctypes.byref(res.value), ctypes.byref(self.value))
+        mcl.mcl_lib.mclBnFr_squareRoot(ctypes.byref(res.value), ctypes.byref(self.value))
         return res
 
     # Binary arithmetic operators
 
     def add(self, rhs: Fr) -> Fr:
         res = Fr()
-        mcl.mclBnFr_add(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
+        mcl.mcl_lib.mclBnFr_add(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
         return res
     
     def __add__(self, rhs: Fr) -> Fr:
@@ -148,7 +151,7 @@ class Fr(ctypes.Structure):
 
     def sub(self, rhs: Fr) -> Fr:
         res = Fr()
-        mcl.mclBnFr_sub(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
+        mcl.mcl_lib.mclBnFr_sub(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
         return res
     
     def __sub__(self, rhs: Fr) -> Fr:
@@ -156,7 +159,7 @@ class Fr(ctypes.Structure):
 
     def mul(self, rhs: Fr) -> Fr:
         res = Fr()
-        mcl.mclBnFr_mul(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
+        mcl.mcl_lib.mclBnFr_mul(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
         return res
     
     def __mul__(self, rhs: Fr) -> Fr:
@@ -164,7 +167,7 @@ class Fr(ctypes.Structure):
 
     def div(self, rhs: Fr) -> Fr:
         res = Fr()
-        mcl.mclBnFr_div(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
+        mcl.mcl_lib.mclBnFr_div(ctypes.byref(res.value), ctypes.byref(self.value), ctypes.byref(rhs.value))
         return res
     
     def __truediv__(self, rhs: Fr) -> Fr:

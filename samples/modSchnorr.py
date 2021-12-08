@@ -25,8 +25,9 @@ class Prover:
         return self.X
     
     def respond(self, c: Fr) -> G1:
-        text = self.X.serialize().hex() + c.serialize().hex()
-        H = G1.hashAndMapTo(text.encode())
+        H = G1.hashAndMapTo(self.X.serialize() + c.serialize())
+        S = self.a * c
+        S = self.x + S
         S = H * (self.x + self.a * c)
         self.x.clear()
         self.X.clear()
@@ -48,8 +49,7 @@ class Verifier:
         return self.c
     
     def verify(self, S: G1) -> bool:
-        text = self.X.serialize().hex() + self.c.serialize().hex()
-        H = G1.hashAndMapTo(text.encode())
+        H = G1.hashAndMapTo(self.X.serialize() + self.c.serialize())
         lhs = pairing(S, self.Q)
         rhs = pairing(H, self.X + self.A * self.c)
         self.X.clear()
@@ -58,8 +58,12 @@ class Verifier:
 
 
 if __name__ == "__main__":
-    # Initialize the library (otherwise you'll get a segmentation fault)
+    # Initialize the library
+
+    # mcl_init(CurveType.MCL_BN254)
+    # mcl_init(CurveType.MCL_BN_SNARK1)
     mcl_init(CurveType.MCL_BLS12_381)
+    # mcl_init(CurveType.MCL_BN160)
 
     # Create generatora
     P = G1.hashAndMapTo(b"abc")
