@@ -4,14 +4,17 @@ PyMCL is a set of Python bindings to the [C++ MCL library](https://github.com/he
 
 ## Available curves
 
-Four different curves are currently available in this wrapper:
+Seven different curves are currently available in this wrapper:
 
 Curve name  | CurveType value |
 ------------|-----------------|
 BN160       | MCL_BN160       |
 BN254       | MCL_BN254       |
+BN381_1     | MCL_BN381_1     |
+BN381_2     | MCL_BN381_2     |
 BLS12_381   | MCL_BLS12_381   |
 BN_SNARK1   | MCL_BN_SNARK1   |
+BN462       | MCL_BN462       |
 
 ## Installation
 
