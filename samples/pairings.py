@@ -3,7 +3,13 @@ from mcl import *
 
 if __name__ == "__main__":
     # Initialize the library
+    # mcl_init(CurveType.MCL_BN254)
+    # mcl_init(CurveType.MCL_BN381_1)
+    # mcl_init(CurveType.MCL_BN381_2)
+    # mcl_init(CurveType.MCL_BN462)
+    # mcl_init(CurveType.MCL_BN_SNARK1)
     mcl_init(CurveType.MCL_BLS12_381)
+    # mcl_init(CurveType.MCL_BN160)
 
     # Create two generators
     P = G1.hashAndMapTo(b"abc")
@@ -19,6 +25,9 @@ if __name__ == "__main__":
     check3 = pairing(P * a, Q * b) == pairing(P        , Q * b    ) ** a
     check4 = pairing(P * a, Q * b) == pairing(P        , Q * a * b)
     check5 = pairing(P * a, Q * b) == pairing(P * a * b, Q        )
+
+    # Print some of the values
+    print(pairing(P * a, Q * b), "\n")
 
     # Check that the pairings are equal
     print(f"e(aP, bQ) == e(  P,   Q)^(ab) -> {check1}")

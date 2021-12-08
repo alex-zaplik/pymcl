@@ -61,7 +61,13 @@ class Verifier:
 
 if __name__ == "__main__":
     # Initialize the library
+    # mcl_init(CurveType.MCL_BN254)
+    # mcl_init(CurveType.MCL_BN381_1)
+    # mcl_init(CurveType.MCL_BN381_2)
+    # mcl_init(CurveType.MCL_BN462)
+    # mcl_init(CurveType.MCL_BN_SNARK1)
     mcl_init(CurveType.MCL_BLS12_381)
+    # mcl_init(CurveType.MCL_BN160)
 
     # Prepare generators
     P = G1.hashAndMapTo(b"abc")
@@ -69,6 +75,23 @@ if __name__ == "__main__":
 
     # Init scheme
     x, X1, X2 = keyGen(P, Q)
+
+    # Create Signer and Verifier instances
+    signer = Signer(P, Q, x)
+    verifier = Verifier(P, Q, X1, X2)
+
+    # Sign some text with G1/G2 signatures
+    text = "Hello world!"
+    s1 = signer.signG1(text)
+    s2 = signer.signG2(text)
+
+    # Verify the signatures
+    print("Verified S1:", verifier.verify(text, s1))
+    print("Verified S2:", verifier.verify(text, s2))
+    
+    # Use an incorrect private key
+    x = x + Fr(10)
+    print()
 
     # Create Signer and Verifier instances
     signer = Signer(P, Q, x)

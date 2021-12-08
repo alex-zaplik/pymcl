@@ -32,6 +32,12 @@ class FrTests(unittest.TestCase):
         a = Fr()
         a.setByCSPRNG()
         a.setHashOf(b"Hello")
+    
+    def testCopy(self):
+        a = Fr("10")
+        b = Fr(a)
+        a.clear()
+        self.assertEqual(b, Fr("10"))
 
     # Checks
 

@@ -11,15 +11,15 @@ class GT(ctypes.Structure):
     """
     A finite field of prime order `r`
     """
-    
-    _fields_ = [("value", ctypes.c_ulonglong * defines.GT_SIZE)]
 
     def __init__(self, value = None):
         if mcl.mcl_lib is None:
             raise RuntimeError("MCL was not initialised, please run mcl_init first")
 
+        self.value = (ctypes.c_ulonglong * defines.GT_SIZE)(*([0] * defines.GT_SIZE))
+
         if isinstance(value, GT):
-            self.value = value.value
+            self.value = (ctypes.c_ulonglong * defines.GT_SIZE)(*value.value)
         elif isinstance(value, int):
             self.setInt(value)
         elif isinstance(value, str):

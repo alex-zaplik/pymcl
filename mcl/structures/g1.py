@@ -12,14 +12,14 @@ class G1(ctypes.Structure):
     The cyclic subgroup of E(Fp)
     """
 
-    _fields_ = [("value", ctypes.c_ulonglong * defines.G1_SIZE)]
-
     def __init__(self, value = None):
         if mcl.mcl_lib is None:
             raise RuntimeError("MCL was not initialised, please run mcl_init first")
 
+        self.value = (ctypes.c_ulonglong * defines.G1_SIZE)(*([0] * defines.G1_SIZE))
+
         if isinstance(value, G1):
-            self.value = value.value
+            self.value = (ctypes.c_ulonglong * defines.G1_SIZE)(*value.value)
         elif isinstance(value, str):
             self.setStr(value)
         elif isinstance(value, bytes):

@@ -40,6 +40,12 @@ class FpTests(unittest.TestCase):
         a = Fp(10)
         b = a.mapToG1()
         self.assertTrue(isinstance(b, G1))
+    
+    def testCopy(self):
+        a = Fp("10")
+        b = Fp(a)
+        a.clear()
+        self.assertEqual(b, Fp("10"))
 
     # Checks
 

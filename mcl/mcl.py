@@ -1,5 +1,4 @@
 from __future__ import annotations
-# from .defines import *
 from . import defines
 from .defines import CurveType
 
@@ -29,19 +28,18 @@ def mcl_init(curve_type: CurveType):
 
     lib_file = ""
 
-    # if curve_type == CurveType.MCL_BN381_1 or curve_type == CurveType.MCL_BN381_2:
-    #     defines.MCLBN_FR_UNIT_SIZE = 6
-    #     defines.MCLBN_FP_UNIT_SIZE = 6
-    #     lib_file = "lib/libmclbn384.so"
-    # elif curve_type == CurveType.MCL_BN462:
-    #     defines.MCLBN_FR_UNIT_SIZE = 8
-    #     defines.MCLBN_FP_UNIT_SIZE = 8
-    #     lib_file = "lib/libmclbn512.so"
-    # else:
-    
-    defines.MCLBN_FR_UNIT_SIZE = 4
-    defines.MCLBN_FP_UNIT_SIZE = 6
-    lib_file = "lib/libmclbn384_256.so"
+    if curve_type == CurveType.MCL_BN381_1 or curve_type == CurveType.MCL_BN381_2:
+        defines.MCLBN_FR_UNIT_SIZE = 6
+        defines.MCLBN_FP_UNIT_SIZE = 6
+        lib_file = "lib/libmclbn384.so"
+    elif curve_type == CurveType.MCL_BN462:
+        defines.MCLBN_FR_UNIT_SIZE = 8
+        defines.MCLBN_FP_UNIT_SIZE = 8
+        lib_file = "lib/libmclbn512.so"
+    else:    
+        defines.MCLBN_FR_UNIT_SIZE = 4
+        defines.MCLBN_FP_UNIT_SIZE = 6
+        lib_file = "lib/libmclbn384_256.so"
 
     defines.FR_SIZE = defines.MCLBN_FR_UNIT_SIZE
     defines.FP_SIZE = defines.MCLBN_FP_UNIT_SIZE

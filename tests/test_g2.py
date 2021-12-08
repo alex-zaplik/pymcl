@@ -27,6 +27,12 @@ class G2Tests(unittest.TestCase):
         a = G2("1 0 10 0 0")
         self.assertEqual(a.getStr(), "1 0 10 0 0")
         self.assertEqual(a.getStr(io_mode=IoMode.HEX), "1 0 a 0 0")
+    
+    def testCopy(self):
+        a = G2("1 0 10 0 0")
+        b = G2(a)
+        a.clear()
+        self.assertEqual(b, G2("1 0 10 0 0"))
 
     # TODO: Test hashAndMapTo
 

@@ -28,6 +28,12 @@ class GTTests(unittest.TestCase):
         self.assertEqual(a, GT(10))
         self.assertEqual(a.getStr(), "10 0 0 0 0 0 0 0 0 0 0 0")
         self.assertEqual(a.getStr(io_mode=IoMode.HEX), "a 0 0 0 0 0 0 0 0 0 0 0")
+    
+    def testCopy(self):
+        a = GT("10")
+        b = GT(a)
+        a.clear()
+        self.assertEqual(b, GT("10"))
 
     # Checks
     

@@ -50,8 +50,10 @@ class Verifier:
 
 if __name__ == "__main__":
     # Initialize the library
-
     # mcl_init(CurveType.MCL_BN254)
+    # mcl_init(CurveType.MCL_BN381_1)
+    # mcl_init(CurveType.MCL_BN381_2)
+    # mcl_init(CurveType.MCL_BN462)
     # mcl_init(CurveType.MCL_BN_SNARK1)
     mcl_init(CurveType.MCL_BLS12_381)
     # mcl_init(CurveType.MCL_BN160)
@@ -61,6 +63,22 @@ if __name__ == "__main__":
 
     # Generate keys
     a, A = keyGen(G)
+
+    # Initialize participants
+    prover = Prover(a, A, G)
+    verifier = Verifier(A, G)
+
+    # Simulate an execution
+    X = prover.commit()
+    c = verifier.challenge(X)
+    s = prover.respond(c)
+    R = verifier.verify(s)
+
+    print("Verfied:", R)
+
+    # Use an incrorrect private key
+    a = a + Fr(10)
+    print()
 
     # Initialize participants
     prover = Prover(a, A, G)

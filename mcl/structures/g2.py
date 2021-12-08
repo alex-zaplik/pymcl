@@ -13,14 +13,14 @@ class G2(ctypes.Structure):
     under a twisting isomorphism from E' to E
     """
 
-    _fields_ = [("value", ctypes.c_ulonglong * defines.G2_SIZE)]
-
     def __init__(self, value = None):
         if mcl.mcl_lib is None:
             raise RuntimeError("MCL was not initialised, please run mcl_init first")
 
+        self.value = (ctypes.c_ulonglong * defines.G2_SIZE)(*([0] * defines.G2_SIZE))
+
         if isinstance(value, G2):
-            self.value = value.value
+            self.value = (ctypes.c_ulonglong * defines.G2_SIZE)(*value.value)
         elif isinstance(value, str):
             self.setStr(value)
         elif isinstance(value, bytes):

@@ -18,8 +18,10 @@ class Fp2(ctypes.Structure):
         if mcl.mcl_lib is None:
             raise RuntimeError("MCL was not initialised, please run mcl_init first")
 
+        self.value = (ctypes.c_ulonglong * (defines.FP_SIZE * 2))(*([0] * (defines.FP_SIZE * 2)))
+
         if isinstance(value, Fp2):
-            self.value = value.value
+            self.value = (ctypes.c_ulonglong * (defines.FP_SIZE * 2))(*value.value)
         elif isinstance(value, bytes):
             self.deserialize(value)
     
