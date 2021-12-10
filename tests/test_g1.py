@@ -18,7 +18,7 @@ class G1Tests(unittest.TestCase):
         self.assertEqual(a, G1("0"))
     
     def testSerialize(self):
-        a = G1(10)
+        a = G1.hashAndMapTo(b"abc")
         s = a.serialize()
         b = G1(s)
         self.assertEqual(a, b)
@@ -69,4 +69,3 @@ class G1Tests(unittest.TestCase):
 
     def testMul(self):
         self.assertEqual(G1("1 0 15") * Fr(2), G1("1 0 15").dbl())
-

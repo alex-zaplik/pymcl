@@ -18,7 +18,7 @@ class G2Tests(unittest.TestCase):
         self.assertEqual(a, G2("0"))
     
     def testSerialize(self):
-        a = G2(10)
+        a = G2.hashAndMapTo(b"abc")
         s = a.serialize()
         b = G2(s)
         self.assertEqual(a, b)

@@ -20,7 +20,8 @@ class FpTests(unittest.TestCase):
         self.assertEqual(a, Fp(0))
     
     def testSerialize(self):
-        a = Fp(10)
+        a = Fp()
+        a.setHashOf(b"abc")
         s = a.serialize()
         b = Fp(s)
         self.assertEqual(a, b)

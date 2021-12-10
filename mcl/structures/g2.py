@@ -36,7 +36,8 @@ class G2(ctypes.Structure):
         """
         Serializes the value to bytes
         """
-        buffer_len = 1024
+
+        buffer_len = 2048
         buffer = ctypes.create_string_buffer(buffer_len)
         size = mcl.mcl_lib.mclBnG2_serialize(buffer, len(buffer), ctypes.byref(self.value))
         return buffer[:size]
@@ -46,7 +47,7 @@ class G2(ctypes.Structure):
         Deserializes bytes and sets the value
         """
         c_buffer = ctypes.create_string_buffer(buffer)
-        mcl.mcl_lib.mclBnG2_deserialize(ctypes.byref(self.value), c_buffer, len(buffer))
+        mcl.mcl_lib.mclBnG2_deserialize(ctypes.byref(self.value), c_buffer, len(c_buffer))
 
     def setStr(self, string: str, io_mode: IoMode = IoMode.DEC) -> None:
         """

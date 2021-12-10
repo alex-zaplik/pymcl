@@ -17,7 +17,8 @@ class FrTests(unittest.TestCase):
         self.assertEqual(a, Fr(0))
     
     def testSerialize(self):
-        a = Fr(10)
+        a = Fr()
+        a.setHashOf(b"abc")
         s = a.serialize()
         b = Fr(s)
         self.assertEqual(a, b)
