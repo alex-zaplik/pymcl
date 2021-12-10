@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="pymcl",
-    version="0.0.2",
+    version="0.0.3",
     author="Alex Zaplik",
     author_email="zaplikpl@gmail.com",
     description="A set of Python bindings for the MCL library",
