@@ -47,10 +47,10 @@ class Fp(ctypes.Structure):
         """
         Serializes the value to bytes
         """
-        buffer_len = 2048 + 1
+        buffer_len = 2048
         buffer = ctypes.create_string_buffer(buffer_len)
         size = mcl.mcl_lib.mclBnFp_serialize(buffer, len(buffer), ctypes.byref(self.value))
-        return buffer[:]
+        return buffer[:size]
     
     def deserialize(self, buffer: bytes) -> None:
         """

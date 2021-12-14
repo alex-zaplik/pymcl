@@ -49,7 +49,7 @@ class GT(ctypes.Structure):
         buffer_len = 2048
         buffer = ctypes.create_string_buffer(buffer_len)
         size = mcl.mcl_lib.mclBnGT_serialize(buffer, len(buffer), ctypes.byref(self.value))
-        return buffer[:]
+        return buffer[:size]
     
     def deserialize(self, buffer: bytes) -> None:
         """
