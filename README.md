@@ -6,7 +6,7 @@ PyMCL is a set of Python bindings to the [C++ MCL library](https://github.com/he
 
 Seven different curves are currently available in this wrapper:
 
-Curve name  | CurveType value | Supporty pairings |
+Curve name  | CurveType value | Supports pairings |
 ------------|-----------------|-------------------|
 BN160       | MCL_BN160       | True              |
 BN254       | MCL_BN254       | True              |
