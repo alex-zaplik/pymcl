@@ -23,23 +23,35 @@ export MCL_PATH=<path>
 """)
 
 
+def is_curve_6_6(ct: CurveType):
+    if ct == CurveType.MCL_BN381_1 or ct == CurveType.MCL_BN381_2:
+        return True
+    
+    if ct == CurveType.MCL_SECP384R1:
+        return True
+
+    return False
+
+
 def mcl_init(curve_type: CurveType):
     global mcl_lib
 
     lib_file = ""
 
-    if curve_type == CurveType.MCL_BN381_1 or curve_type == CurveType.MCL_BN381_2:
+    if is_curve_6_6(curve_type):
         defines.MCLBN_FR_UNIT_SIZE = 6
         defines.MCLBN_FP_UNIT_SIZE = 6
         lib_file = "lib/libmclbn384.so"
-    elif curve_type == CurveType.MCL_BN462:
-        defines.MCLBN_FR_UNIT_SIZE = 8
-        defines.MCLBN_FP_UNIT_SIZE = 8
-        lib_file = "lib/libmclbn512.so"
+    # elif curve_type == CurveType.MCL_BN462 or curve_type == CurveType.MCL_SECP521R1:
+    #     defines.MCLBN_FR_UNIT_SIZE = 8
+    #     defines.MCLBN_FP_UNIT_SIZE = 8
+    #     lib_file = "lib/libmclbn512.so"
     else:    
         defines.MCLBN_FR_UNIT_SIZE = 4
         defines.MCLBN_FP_UNIT_SIZE = 6
         lib_file = "lib/libmclbn384_256.so"
+
+    defines.G2_AVAILABLE = curve_type.value < 100
 
     defines.FR_SIZE = defines.MCLBN_FR_UNIT_SIZE
     defines.FP_SIZE = defines.MCLBN_FP_UNIT_SIZE

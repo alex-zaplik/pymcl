@@ -10,7 +10,7 @@ def keyGen(Q: G2):
 
 
 class Prover:
-    def __init__(self, a: Fr, A: G1, P: G1, Q: G2):
+    def __init__(self, a: Fr, A: G2, P: G1, Q: G2):
         self.a = a
         self.A = A
         self.P = P
@@ -26,8 +26,8 @@ class Prover:
     
     def respond(self, c: Fr) -> G1:
         H = G1.hashAndMapTo(self.X.serialize() + c.serialize())
-        S = self.a * c
-        S = self.x + S
+        # S = self.a * c
+        # S = self.x + S
         S = H * (self.x + self.a * c)
         self.x.clear()
         self.X.clear()
@@ -35,7 +35,7 @@ class Prover:
 
 
 class Verifier:
-    def __init__(self, A: G1, P: G1, Q: G2):
+    def __init__(self, A: G2, P: G1, Q: G2):
         self.A = A
         self.P = P
         self.Q = Q
@@ -62,7 +62,6 @@ if __name__ == "__main__":
     # mcl_init(CurveType.MCL_BN254)
     # mcl_init(CurveType.MCL_BN381_1)
     # mcl_init(CurveType.MCL_BN381_2)
-    # mcl_init(CurveType.MCL_BN462)
     # mcl_init(CurveType.MCL_BN_SNARK1)
     mcl_init(CurveType.MCL_BLS12_381)
     # mcl_init(CurveType.MCL_BN160)

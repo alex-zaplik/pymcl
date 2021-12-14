@@ -6,15 +6,23 @@ PyMCL is a set of Python bindings to the [C++ MCL library](https://github.com/he
 
 Seven different curves are currently available in this wrapper:
 
-Curve name  | CurveType value |
-------------|-----------------|
-BN160       | MCL_BN160       |
-BN254       | MCL_BN254       |
-BN381_1     | MCL_BN381_1     |
-BN381_2     | MCL_BN381_2     |
-BLS12_381   | MCL_BLS12_381   |
-BN_SNARK1   | MCL_BN_SNARK1   |
-BN462       | MCL_BN462       |
+Curve name  | CurveType value | Supporty pairings |
+------------|-----------------|-------------------|
+BN160       | MCL_BN160       | True              |
+BN254       | MCL_BN254       | True              |
+BN381_1     | MCL_BN381_1     | True              |
+BN381_2     | MCL_BN381_2     | True              |
+BLS12_381   | MCL_BLS12_381   | True              |
+BN_SNARK1   | MCL_BN_SNARK1   | True              |
+SECP192K1   | MCL_SECP192K1   | False             |
+SECP224K1   | MCL_SECP224K1   | False             |
+SECP256K1   | MCL_SECP256K1   | False             |
+SECP384R1   | MCL_SECP384R1   | False             |
+NIST_P192   | MCL_NIST_P192   | False             |
+NIST_P224   | MCL_NIST_P224   | False             |
+NIST_P256   | MCL_NIST_P256   | False             |
+SECP160K1   | MCL_SECP160K1   | False             |
+P160_1      | MCL_P160_1      | False             |
 
 ## Installation
 

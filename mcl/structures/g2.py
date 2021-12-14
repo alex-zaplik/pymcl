@@ -17,6 +17,9 @@ class G2(ctypes.Structure):
         if mcl.mcl_lib is None:
             raise RuntimeError("MCL was not initialised, please run mcl_init first")
 
+        if not defines.G2_AVAILABLE:
+            raise RuntimeError("The curve that was chosen does not support G2")
+
         self.value = (ctypes.c_ulonglong * defines.G2_SIZE)(*([0] * defines.G2_SIZE))
 
         if isinstance(value, G2):
@@ -37,10 +40,10 @@ class G2(ctypes.Structure):
         Serializes the value to bytes
         """
 
-        buffer_len = 2048
+        buffer_len = 2048 + 1
         buffer = ctypes.create_string_buffer(buffer_len)
         size = mcl.mcl_lib.mclBnG2_serialize(buffer, len(buffer), ctypes.byref(self.value))
-        return buffer[:size]
+        return buffer[:]
     
     def deserialize(self, buffer: bytes) -> None:
         """

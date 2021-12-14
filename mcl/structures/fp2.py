@@ -38,7 +38,7 @@ class Fp2(ctypes.Structure):
         buffer_len = 2048
         buffer = ctypes.create_string_buffer(buffer_len)
         size = mcl.mcl_lib.mclBnFp2_serialize(buffer, len(buffer), ctypes.byref(self.value))
-        return buffer[:size]
+        return buffer[:]
     
     def deserialize(self, buffer: bytes) -> None:
         """

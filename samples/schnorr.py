@@ -53,7 +53,6 @@ if __name__ == "__main__":
     # mcl_init(CurveType.MCL_BN254)
     # mcl_init(CurveType.MCL_BN381_1)
     # mcl_init(CurveType.MCL_BN381_2)
-    # mcl_init(CurveType.MCL_BN462)
     # mcl_init(CurveType.MCL_BN_SNARK1)
     mcl_init(CurveType.MCL_BLS12_381)
     # mcl_init(CurveType.MCL_BN160)

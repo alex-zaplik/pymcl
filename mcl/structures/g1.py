@@ -36,10 +36,10 @@ class G1(ctypes.Structure):
         Serializes the value to bytes
         """
 
-        buffer_len = 2048
+        buffer_len = 2048 + 1
         buffer = ctypes.create_string_buffer(buffer_len)
         size = mcl.mcl_lib.mclBnG1_serialize(buffer, len(buffer), ctypes.byref(self.value))
-        return buffer[:size]
+        return buffer[:]
     
     def deserialize(self, buffer: bytes) -> None:
         """

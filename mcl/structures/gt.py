@@ -16,6 +16,9 @@ class GT(ctypes.Structure):
         if mcl.mcl_lib is None:
             raise RuntimeError("MCL was not initialised, please run mcl_init first")
 
+        if not defines.G2_AVAILABLE:
+            raise RuntimeError("The curve that was chosen does not support GT")
+
         self.value = (ctypes.c_ulonglong * defines.GT_SIZE)(*([0] * defines.GT_SIZE))
 
         if isinstance(value, GT):
@@ -46,7 +49,7 @@ class GT(ctypes.Structure):
         buffer_len = 2048
         buffer = ctypes.create_string_buffer(buffer_len)
         size = mcl.mcl_lib.mclBnGT_serialize(buffer, len(buffer), ctypes.byref(self.value))
-        return buffer[:size]
+        return buffer[:]
     
     def deserialize(self, buffer: bytes) -> None:
         """
