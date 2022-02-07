@@ -4,7 +4,7 @@ PyMCL is a set of Python bindings to the [C++ MCL library](https://github.com/he
 
 ## Available curves
 
-Seven different curves are currently available in this wrapper:
+Fifteen different curves are currently available in this wrapper:
 
 Curve name  | CurveType value | Supports pairings |
 ------------|-----------------|-------------------|
@@ -55,6 +55,10 @@ were needed.
 
 For now, this binding set only supports Linux operating systems.
 The library was tested with MCL v1.52
+
+## Inspiration
+
+This wrapper was inspierd by [an older one](https://github.com/piotrszyma/mcl-python) and the aim was to create a new wrapper that is easier to maintain, fixes some of the bugs (such as incorrect serialization) and adds missing functions and curves.
 
 ## Contributions
 
